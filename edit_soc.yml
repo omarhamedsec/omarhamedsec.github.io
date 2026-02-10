@@ -1,0 +1,37 @@
+
+name: "Dashboard: Edit SOC"
+description: "Update the SOC page"
+title: "Dashboard - SOC"
+body:
+  - type: markdown
+    attributes:
+      value: "<!--dashboard:soc-->
+Submit to update the SOC page."
+
+  - type: textarea
+    id: detections
+    attributes:
+      label: "Detections & Use-cases (Markdown)"
+      placeholder: "- Failed logons burst...
+- Suspicious logon hours..."
+
+  - type: textarea
+    id: playbooks
+    attributes:
+      label: "Playbooks (Markdown)"
+      placeholder: "- Brute-force: steps...
+- Suspicious logon: steps..."
+
+  - type: textarea
+    id: data_sources
+    attributes:
+      label: "Data Sources (Markdown)"
+      placeholder: "- Windows Security + Sysmon
+- Wazuh agents
+- Security Onion"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes / Extra (Markdown)"
+      placeholder: "Add anything: screenshots, code blocks, etc."

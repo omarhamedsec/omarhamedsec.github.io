@@ -1,0 +1,29 @@
+
+name: "Dashboard: Edit Network"
+description: "Update the Network page"
+title: "Dashboard - Network"
+body:
+  - type: markdown
+    attributes:
+      value: "<!--dashboard:network-->
+Submit to update the Network page."
+
+  - type: textarea
+    id: segmentation
+    attributes:
+      label: "Segmentation & DMZ (Markdown)"
+
+  - type: textarea
+    id: firewall
+    attributes:
+      label: "Firewall Rule Strategy (Markdown)"
+
+  - type: textarea
+    id: ids
+    attributes:
+      label: "IDS / Visibility (Markdown)"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes / Extra (Markdown)"

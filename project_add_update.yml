@@ -1,0 +1,82 @@
+
+name: "Dashboard: Add/Update Project"
+description: "Create or update a project page (with images, code, steps)"
+title: "Project - "
+body:
+  - type: markdown
+    attributes:
+      value: "<!--dashboard:project-->
+Tip: You can drag & drop images into this issue after submitting, then copy the generated URLs into the Images field or inside Details."
+
+  - type: input
+    id: proj_title
+    attributes:
+      label: "Project Title"
+      placeholder: "Enterprise Homelab"
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: "Slug (optional)"
+      description: "Leave empty to auto-generate. Use same slug to update the same project later."
+      placeholder: "enterprise-homelab"
+
+  - type: input
+    id: date
+    attributes:
+      label: "Date (YYYY-MM-DD)"
+      placeholder: "2026-02-10"
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: "Status"
+      options:
+        - In Progress
+        - Completed
+
+  - type: input
+    id: stack
+    attributes:
+      label: "Stack / Tools"
+      placeholder: "AD, Win11, Ubuntu, Wazuh, Security Onion, pfSense"
+
+  - type: input
+    id: repo
+    attributes:
+      label: "Repo/Link (optional)"
+      placeholder: "https://github.com/omarhamedsec/..."
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Short Summary"
+      placeholder: "One paragraph: goal + what you achieved."
+    validations:
+      required: true
+
+  - type: textarea
+    id: images
+    attributes:
+      label: "Image URLs (optional, one per line)"
+      placeholder: |
+        https://user-images.githubusercontent.com/.../1.png
+        https://user-images.githubusercontent.com/.../2.jpg
+
+  - type: textarea
+    id: details
+    attributes:
+      label: "Details (Markdown)"
+      description: "Write full steps, commands, code blocks, screenshots links."
+      placeholder: |
+        ## Goal
+        ...
+
+        ## Steps
+        1) ...
+
+        ```bash
+        command here
+        ```
