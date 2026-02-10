@@ -1,7 +1,10 @@
-
 title: Omar Hamed | Cyber Journey
 description: Enterprise Cybersecurity Homelab Journey – SOC → Network → Cloud
-theme: jekyll-theme-primer
+
+# لو انت عايز تستخدم الستايل والـ layout اللي عملناه (أفضل للتحكم الكامل):
+theme: null
+# لو عايز تفضل على primer مؤقتًا، احذف السطر اللي فوق وحط ده بدلًا منه:
+# theme: jekyll-theme-primer
 
 url: "https://omarhamedsec.github.io"
 baseurl: ""
@@ -22,3 +25,17 @@ paginate_path: "/page:num/"
 sass:
   sass_dir: _sass
   style: compressed
+
+# ===== Collections =====
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+# ===== Defaults (عشان أي ملف في _projects/ يلبس layout project تلقائيًا) =====
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: project
