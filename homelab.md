@@ -1,21 +1,19 @@
+
 ---
 layout: default
 title: Homelab
 permalink: /homelab/
 ---
-
 <div class="container">
   <nav class="nav">
-    {{ Home</a>
-    {{ SOC</a>
-    {{ Network</a>
-    {{ Homelab</a>
-    {{ Projects</a>
-    {{ Contact</a>
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <a href="{{ '/soc/' | relative_url }}">SOC</a>
+    <a href="{{ '/network/' | relative_url }}">Network</a>
+    <a href="{{ '/homelab/' | relative_url }}">Homelab</a>
+    <a href="{{ '/projects/' | relative_url }}">Projects</a>
+    <a href="{{ '/contact/' | relative_url }}">Contact</a>
   </nav>
-
   <h1>Enterprise Homelab</h1>
-
   <div class="card">
     <h2>Stack</h2>
     <ul>
@@ -25,7 +23,6 @@ permalink: /homelab/
       <li>Postfix (mail) · pfSense (firewall)</li>
     </ul>
   </div>
-
   <div class="card">
     <h2>Focus Areas</h2>
     <ul>
