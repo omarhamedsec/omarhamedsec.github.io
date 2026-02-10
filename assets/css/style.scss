@@ -1,102 +1,110 @@
 ---
 ---
 
-/* ============ GLOBAL ============ */
+/*==========================
+   CYBER DARK NEON THEME
+==========================*/
+
+/* Colors */
 :root {
-  --bg: #0d1117;
-  --bg-light: #161b22;
-  --text: #e6edf3;
-  --text-dim: #9ba7b4;
-  --accent: #2f81f7;
-  --border: #30363d;
+  --bg: #06090f;
+  --bg2: #0b0f1a;
+  --neon: #00ff9d;
+  --neon-soft: #2affc8;
+  --text: #d7e0ea;
+  --text-dim: #8793a0;
+  --border: #0f1828;
 }
 
+/* Global */
 body {
-  background: var(--bg);
+  background: linear-gradient(180deg, var(--bg), var(--bg2));
   color: var(--text);
-  font-family: "Segoe UI", Arial, sans-serif;
-  line-height: 1.8;
-  max-width: 900px;
+  font-family: "Segoe UI", "Cairo", Arial, sans-serif;
+  line-height: 1.9;
+  max-width: 1000px;
   margin: auto;
-  padding: 40px 15px;
+  padding: 40px 20px;
 }
 
-/* ============ HEADERS ============ */
+/* Cyber Glow */
 h1, h2, h3 {
-  color: var(--text);
+  color: var(--neon);
+  text-shadow: 0px 0px 12px var(--neon-soft);
   margin-bottom: 20px;
   font-weight: 600;
 }
 
 h1 {
-  font-size: 34px;
-  margin-top: 0;
+  font-size: 40px;
+  letter-spacing: 1px;
 }
 
-/* ============ NAV BAR ============ */
+/* Navigation */
 .nav {
-  background: var(--bg-light);
-  padding: 12px 15px;
+  background: rgba(10, 20, 30, 0.6);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 25px;
+  backdrop-filter: blur(8px);
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
   font-size: 18px;
+  display: flex;
+  gap: 18px;
 }
 
 .nav a {
-  margin-right: 18px;
+  color: var(--text);
   text-decoration: none;
-  color: var(--accent);
   transition: 0.2s;
 }
 
 .nav a:hover {
-  color: #74a7ff;
+  color: var(--neon);
+  text-shadow: 0px 0px 8px var(--neon-soft);
 }
 
-/* ============ PARAGRAPHS & LISTS ============ */
+/* Paragraphs */
 p {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   font-size: 18px;
 }
 
+/* Lists */
 li {
   margin-bottom: 12px;
   font-size: 18px;
 }
 
-/* ============ LINKS ============ */
+/* Links */
 a {
-  color: var(--accent);
+  color: var(--neon);
 }
 
 a:hover {
-  text-decoration: underline;
+  text-shadow: 0px 0px 12px var(--neon-soft);
 }
 
-/* ============ CODE BLOCKS (لو استخدمت) ============ */
-code {
-  background: var(--bg-light);
-  padding: 5px 8px;
-  border-radius: 5px;
-  color: var(--accent);
-  font-size: 15px;
-}
-
+/* Code blocks */
 pre {
-  background: var(--bg-light);
+  background: #0f1a2b;
+  border-left: 3px solid var(--neon);
   padding: 15px;
   border-radius: 8px;
   overflow-x: auto;
-  border: 1px solid var(--border);
 }
 
-/* ============ FOOTER (اختياري) ============ */
-footer {
-  margin-top: 40px;
-  padding-top: 15px;
-  border-top: 1px solid var(--border);
-  text-align: center;
-  color: var(--text-dim);
-  font-size: 14px;
+/* Cyber Cards */
+.card {
+  background: rgba(10, 18, 30, 0.7);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  transition: 0.25s;
+}
+
+.card:hover {
+  border-color: var(--neon);
+  box-shadow: 0 0 12px var(--neon-soft);
 }
