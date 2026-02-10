@@ -22,14 +22,14 @@ permalink: /homelab/
       <li>Windows AD + Windows 11</li>
       <li>Ubuntu (server/desktop)</li>
       <li>Wazuh SIEM + Security Onion</li>
-      <li>Postfix test mail · pfSense</li>
+      <li>Postfix (mail) · pfSense (firewall)</li>
     </ul>
   </div>
 
   <div class="card">
-    <h2>What I’m Practicing</h2>
+    <h2>Focus Areas</h2>
     <ul>
-      <li>End‑to‑end attack simulation + detections</li>
+      <li>End‑to‑end attacks + detections</li>
       <li>Log pipelines & parsing</li>
       <li>Network segmentation & rule design</li>
     </ul>
