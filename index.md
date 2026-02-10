@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Hello I'm Omar Hamed| Cybersecurity Portfolio
+title: Omar Hamed | Cybersecurity Portfolio
 ---
 
 <div class="container">
 
   <div class="topbar">
-    <div class="brand"><a href="{{ '/' | relative_url }}">Omar Hamed</a></div>
+    <div class="brand"><a href="{{ '/' | relative_url }}">Hello I'm Omar Hamed</a></div>
     <button id="themeToggle">Light</button>
   </div>
 
