@@ -1,4 +1,3 @@
-
 name: Dashboard Writer
 
 on:
@@ -11,9 +10,10 @@ permissions:
 
 jobs:
   write:
-    # Only allow repo owner to control the site
+    # Only the repo owner can apply changes
     if: github.event.issue.user.login == github.repository_owner
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -23,9 +23,15 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || "";
+
+            // ✅ FIX: marker must use ${tag} not ${{tag}}
             const marker = (tag) => body.includes(`<!--dashboard:${tag}-->`);
-            function get(label) {
-              const re = new RegExp(`###\s+${label}[\s\S]*?\n([\s\S]*?)(?=\n###|$)`, 'i');
+
+            // GitHub Issue forms store answers under headings like:
+            // ### Hero Title
+            // value...
+            function get(heading){
+              const re = new RegExp(`###\\s+${heading}[\\s\\S]*?\\n([\\s\\S]*?)(?=\\n###|$)`, "i");
               const m = body.match(re);
               return m ? m[1].trim() : "";
             }
@@ -33,25 +39,20 @@ jobs:
             let outPath = "";
             let outContent = "";
 
-            const nav = `  <nav class="nav">
-` +
-              `    <a href="{ '{' } '/' | relative_url { '}' }">Home</a>
-` +
-              `    <a href="{ '{' } '/soc/' | relative_url { '}' }">SOC</a>
-` +
-              `    <a href="{ '{' } '/network/' | relative_url { '}' }">Network</a>
-` +
-              `    <a href="{ '{' } '/homelab/' | relative_url { '}' }">Homelab</a>
-` +
-              `    <a href="{ '{' } '/projects/' | relative_url { '}' }">Projects</a>
-` +
-              `    <a href="{ '{' } '/contact/' | relative_url { '}' }">Contact</a>
-` +
-              `  </nav>
+            // ✅ Simple nav (no Jekyll/Liquid) to avoid parsing issues
+            const nav = `
+<nav class="nav">
+  <a href="/">Home</a>
+  <a href="/soc/">SOC</a>
+  <a href="/network/">Network</a>
+  <a href="/homelab/">Homelab</a>
+  <a href="/projects/">Projects</a>
+  <a href="/contact/">Contact</a>
+</nav>
 `;
 
-            const wrap = (title, permalink, inner) =>
-              `---
+            const pageWrap = (title, permalink, inner) => (
+`---
 layout: default
 title: ${title}
 permalink: ${permalink}
@@ -61,223 +62,76 @@ permalink: ${permalink}
 ${nav}
 ${inner}
 </div>
-`;
+`
+            );
 
-            if (marker('home')) {
-              const heroTitle = get('Hero Title') || 'Portfolio';
-              const heroSummary = get('Hero Summary (1-3 lines)');
-              const highlights = get('Highlights (Markdown list)');
-              const skills = get('Core Skills (Markdown - you can use bullets)');
-              const timeline = get('Timeline (Markdown)');
-              const course = get('Enterprise Course Section');
-              const contact = get('Contact Block (Markdown)');
+            // HOME
+            if (marker("home")){
+              const heroTitle = get("Hero Title") || "Portfolio";
+              const heroSummary = get("Hero Summary (1-3 lines)");
+              const highlights = get("Highlights (Markdown list)");
+              const skills = get("Core Skills (Markdown - you can use bullets)");
+              const timeline = get("Timeline (Markdown)");
+              const course = get("Enterprise Course Section");
+              const contact = get("Contact Block (Markdown)");
 
-              const inner = `
-  <div class="card">
-    <h1 class="m0">${heroTitle}</h1>
-    <p class="mt10">${heroSummary}</p>
-    <p class="mt6">
-      <a class="btn btn-primary" href="{ '{' } '/projects/' | relative_url { '}' }">View Projects</a>
-      <a class="btn btn-ghost" href="{ '{' } '/homelab/' | relative_url { '}' }">Homelab</a>
-    </p>
-    <p class="mt6">
-      <a class="btn btn-ghost" href="{ '{' } '/assets/docs/OMAR-HAMED-CV.pdf' | relative_url { '}' }" download>Download CV</a>
-      <a class="btn btn-ghost" href="{ '{' } '/assets/docs/OMAR-HAMED-RESUME.pdf' | relative_url { '}' }" download>Resume</a>
-    </p>
-  </div>
-  ${highlights ? `<div class="card"><h2>Highlights</h2>
-${highlights}
-</div>` : ''}
-  ${skills ? `<div class="card"><h2>Core Skills</h2>
-${skills}
-</div>` : ''}
-  ${timeline ? `<div class="card"><h2>Timeline</h2>
-${timeline}
-</div>` : ''}
-  ${course ? `<div class="card"><h2>Enterprise Course (In Progress)</h2>
-${course}
-</div>` : ''}
-  ${contact ? `<div class="card"><h2>Contact</h2>
-${contact}
-</div>` : ''}
-  <footer>© { '{' } "now" | date: "%Y" { '}' } Omar Hamed · Cyber Portfolio</footer>
-`;
-
-              outPath = 'index.md';
-              outContent = `---
+              outPath = "index.md";
+              outContent =
+`---
 layout: default
 title: Omar Hamed | Cybersecurity Portfolio
 ---
 
 <div class="container">
 ${nav}
-${inner}
+
+<div class="card">
+  <h1 class="m0">${heroTitle}</h1>
+  <p class="mt10">${heroSummary}</p>
+  <p class="mt6">
+    <a class="btn btn-primary" href="/projects/">View Projects</a>
+    <a class="btn btn-ghost" href="/homelab/">Homelab</a>
+  </p>
+  <p class="mt6">
+    <a class="btn btn-ghost" href="/assets/docs/OMAR-HAMED-CV.pdf" download>Download CV</a>
+    <a class="btn btn-ghost" href="/assets/docs/OMAR-HAMED-RESUME.pdf" download>Resume</a>
+  </p>
 </div>
-<script src="{ '{' } '/assets/js/app.js' | relative_url { '}' }"></script>
+
+${highlights ? `<div class="card"><h2>Highlights</h2>\n${highlights}\n</div>` : "" }
+${skills ? `<div class="card"><h2>Core Skills</h2>\n${skills}\n</div>` : "" }
+${timeline ? `<div class="card"><h2>Timeline</h2>\n${timeline}\n</div>` : "" }
+${course ? `<div class="card"><h2>Enterprise Course (In Progress)</h2>\n${course}\n</div>` : "" }
+${contact ? `<div class="card"><h2>Contact</h2>\n${contact}\n</div>` : "" }
+
+<footer>© ${new Date().getFullYear()} Omar Hamed · Cyber Portfolio</footer>
+</div>
+<script src="/assets/js/app.js"></script>
 `;
             }
 
-            if (marker('soc')) {
-              const det = get('Detections & Use-cases (Markdown)');
-              const pb  = get('Playbooks (Markdown)');
-              const ds  = get('Data Sources (Markdown)');
-              const notes = get('Notes / Extra (Markdown)');
-              const inner = `
-  <h1>SOC Journey</h1>
-  ${det ? `<div class="card"><h2>Detections & Use-cases</h2>
-${det}
-</div>` : ''}
-  ${pb ? `<div class="card"><h2>Playbooks</h2>
-${pb}
-</div>` : ''}
-  ${ds ? `<div class="card"><h2>Data Sources</h2>
-${ds}
-</div>` : ''}
-  ${notes ? `<div class="card"><h2>Notes</h2>
-${notes}
-</div>` : ''}
-`;
-              outPath = 'soc.md';
-              outContent = wrap('SOC Journey','/soc/',inner);
+            // SOC
+            if (marker("soc")){
+              const det = get("Detections & Use-cases (Markdown)");
+              const pb = get("Playbooks (Markdown)");
+              const ds = get("Data Sources (Markdown)");
+              const notes = get("Notes / Extra (Markdown)");
+
+              outPath = "soc.md";
+              outContent = pageWrap("SOC Journey", "/soc/",
+`<h1>SOC Journey</h1>
+${det ? `<div class="card"><h2>Detections & Use-cases</h2>\n${det}\n</div>` : "" }
+${pb ? `<div class="card"><h2>Playbooks</h2>\n${pb}\n</div>` : "" }
+${ds ? `<div class="card"><h2>Data Sources</h2>\n${ds}\n</div>` : "" }
+${notes ? `<div class="card"><h2>Notes</h2>\n${notes}\n</div>` : "" }
+`);
             }
 
-            if (marker('network')) {
-              const seg = get('Segmentation & DMZ (Markdown)');
-              const fw  = get('Firewall Rule Strategy (Markdown)');
-              const ids = get('IDS / Visibility (Markdown)');
-              const notes = get('Notes / Extra (Markdown)');
-              const inner = `
-  <h1>Network Security</h1>
-  ${seg ? `<div class="card"><h2>Segmentation & DMZ</h2>
-${seg}
-</div>` : ''}
-  ${fw ? `<div class="card"><h2>Firewall Rule Strategy</h2>
-${fw}
-</div>` : ''}
-  ${ids ? `<div class="card"><h2>IDS / Visibility</h2>
-${ids}
-</div>` : ''}
-  ${notes ? `<div class="card"><h2>Notes</h2>
-${notes}
-</div>` : ''}
-`;
-              outPath = 'network.md';
-              outContent = wrap('Network Security','/network/',inner);
-            }
+            // NETWORK
+            if (marker("network")){
+              const seg = get("Segmentation & DMZ (Markdown)");
+              const fw = get("Firewall Rule Strategy (Markdown)");
+              const ids = get("IDS / Visibility (Markdown)");
+              const notes = get("Notes / Extra (Markdown)");
 
-            if (marker('homelab')) {
-              const stack = get('Stack (Markdown list)');
-              const design = get('Design Snapshot (Markdown)');
-              const focus = get('Focus Areas (Markdown)');
-              const ms = get('Milestones / Mini-Log (Markdown)');
-              const notes = get('Notes / Extra (Markdown)');
-              const inner = `
-  <h1>Homelab</h1>
-  ${stack ? `<div class="card"><h2>Stack</h2>
-${stack}
-</div>` : ''}
-  ${design ? `<div class="card"><h2>Design Snapshot</h2>
-${design}
-</div>` : ''}
-  ${focus ? `<div class="card"><h2>Focus Areas</h2>
-${focus}
-</div>` : ''}
-  ${ms ? `<div class="card"><h2>Milestones / Log</h2>
-${ms}
-</div>` : ''}
-  ${notes ? `<div class="card"><h2>Notes</h2>
-${notes}
-</div>` : ''}
-`;
-              outPath = 'homelab.md';
-              outContent = wrap('Homelab','/homelab/',inner);
-            }
-
-            if (marker('contact')) {
-              const linkedin = get('LinkedIn URL');
-              const github = get('GitHub URL');
-              const email = get('Email');
-              const extras = get('Extra Links / Notes (Markdown)');
-              const inner = `
-  <h1>Contact</h1>
-  <div class="card">
-    <p class="m0">
-      ${linkedin ? `LinkedIn: <a href="${linkedin}" target="_blank">${linkedin}</a><br>` : ''}
-      ${github ? `GitHub: <a href="${github}" target="_blank">${github}</a><br>` : ''}
-      ${email ? `Email: <a href="mailto:${email}">${email}</a>` : ''}
-    </p>
-    ${extras ? `<div class="mt10">
-${extras}
-</div>` : ''}
-  </div>
-`;
-              outPath = 'contact.md';
-              outContent = wrap('Contact','/contact/',inner);
-            }
-
-            if (marker('project')) {
-              const title = get('Project Title');
-              const slugIn = get('Slug (optional)');
-              const date = get('Date (YYYY-MM-DD)') || new Date().toISOString().slice(0,10);
-              const status = get('Status');
-              const stack = get('Stack / Tools');
-              const repo = get('Repo/Link (optional)');
-              const summary = get('Short Summary');
-              const images = get('Image URLs (optional, one per line)');
-              const details = get('Details (Markdown)');
-
-              const slug = (slugIn || title || `proj-${Date.now()}`).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-              const imagesYaml = images ? images.split(/?
-/).filter(Boolean).map(u=>`  - ${u}`).join('
-')+'
-' : '';
-
-              outPath = `_projects/${slug}.md`;
-              outContent = `---
-layout: project
-title: "${title.replace(/"/g,'\"')}"
-date: ${date}
-status: "${status}"
-stack: "${stack}"
-repo: "${repo}"
-summary: "${summary.replace(/"/g,'\"')}"
-images:
-${imagesYaml}---
-
-${details}
-`;
-            }
-
-            if (marker('delete-project')) {
-              const slug = get('Project Slug');
-              outPath = `_projects/${slug}.md`;
-              outContent = '__DELETE__';
-            }
-
-            if (!outPath) {
-              core.setFailed('No dashboard marker found in issue body. Use the Issue Forms.');
-              return;
-            }
-            core.setOutput('path', outPath);
-            core.setOutput('content', outContent);
-
-      - name: Apply changes
-        run: |
-          mkdir -p _projects
-          if [ "${ steps.render.outputs.content }" = "__DELETE__" ]; then
-            echo "Deleting ${ steps.render.outputs.path }"
-            rm -f "${ steps.render.outputs.path }"
-          else
-            echo "Writing ${ steps.render.outputs.path }"
-            cat > "${ steps.render.outputs.path }" <<'EOF'
-${ steps.render.outputs.content }
-EOF
-          fi
-
-      - name: Commit & Push
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          git commit -m "Dashboard update" || echo "No changes"
-          git push
+              outPath = "network.md";
