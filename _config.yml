@@ -1,0 +1,24 @@
+
+title: Omar Hamed | Cyber Journey
+description: Enterprise Cybersecurity Homelab Journey – SOC → Network → Cloud
+theme: jekyll-theme-primer
+
+url: "https://omarhamedsec.github.io"
+baseurl: ""
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-gist
+  - jekyll-paginate
+  - jekyll-relative-links
+  - jekyll-titles-from-headings
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-default-layout
+
+paginate: 5
+paginate_path: "/page:num/"
+
+sass:
+  sass_dir: _sass
+  style: compressed
