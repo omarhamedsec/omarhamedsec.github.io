@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard</title>
+  <style>
+    body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#0f141a;color:#e8eef3}
+    .wrap{max-width:900px;margin:auto;padding:24px}
+    .card{background:#151b23;border:1px solid #222b35;border-radius:12px;padding:18px;margin:12px 0}
+    a{color:#5aa0ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .btn{display:inline-block;margin:6px 8px 0 0;padding:10px 14px;border-radius:10px;border:1px solid #222b35;background:#161d25;color:#e8eef3}
+    .btn.primary{background:#5aa0ff;border-color:#5aa0ff;color:#fff;font-weight:700}
+    .hint{color:#a9b3bd;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Dashboard</h1>
+    <p class="hint">
+      دي لوحة التحكم بتفتح فورمات GitHub. بعد ما تعمل Submit: روح Actions → استنى يبقى ✅ → اعمل Refresh للموقع.
+    </p>
+
+    <div class="card">
+      <h2>Edit Pages</h2>
+      <a class="btn primary" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=edit_home.yml">Edit Home</a>
+      <a class="btn" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=edit_soc.yml">Edit SOC</a>
+      <a class="btn" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=edit_network.yml">Edit Network</a>
+      <a class="btn" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=edit_homelab.yml">Edit Homelab</a>
+      <a class="btn" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=edit_contact.yml">Edit Contact</a>
+    </div>
+
+    <div class="card">
+      <h2>Projects</h2>
+      <a class="btn primary" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=project_add_update.yml">Add / Update Project</a>
+      <a class="btn" href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues/new?template=project_delete.yml">Delete Project</a>
+    </div>
+
+    <div class="card">
+      <h2>Quick Links</h2>
+      <p><a href="https://omarhamedsec.github.io/">Open Site</a></p>
+      <p><a href="https://github.com/omarhamedsec/omarhamedsec.github.io/issues">Open Issues</a></p>
+      <p><a href="https://github.com/omarhamedsec/omarhamedsec.github.io/actions">Open Actions</a></p>
+    </div>
+  </div>
+</body>
+</html>
