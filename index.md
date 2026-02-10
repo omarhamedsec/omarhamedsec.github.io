@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Omar Hamed | Cybersecurity Portfolio
+title: Hello I'm Omar Hamed | Cybersecurity Portfolio
 ---
 
 <div class="container">
